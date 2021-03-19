@@ -14,35 +14,39 @@ const gClient = new Client;
 
 const origin = `${process.env.ORIGIN_EIRCODE}+Ireland`;
 
+
 const getDistance = async (destination) => {
-  const res = await gClient.distancematrix({params: {
+  const response = await gClient.distancematrix({params: {
     key: process.env.GOOGLE_API_KEY,
     origins: [origin],
     destinations: [destination]
   }})
 
-  let distance = ''
-  res.data.rows.forEach(row => {
+  let distance = ''; [Object] 
+  let duration = '';
+  response.data.rows.forEach(row => {
     if (row.elements.length > 0 && row.elements[0].distance) {
       distance = row.elements[0].distance.text;
+      duration = row.elements[0].duration.text;
     // console.log({distance: row.elements[0].distance, duration: row.elements[0].duration})
     }
   })
-  return distance;
+  return {distance, duration};
 }
 
-// schools = schools.slice(1,3); // TODO: remove
+// schools = schools.slice(1,4); // TODO: remove
 
-const distances = []
-
-// console.log(schools[0]);
+let distances = []
 
 const main = async () => {
-  for (school of schools) {
+  for (school of schools) {school: school['Official Name']
     const destination = `${school.Eircode}+Ireland`; // school['County Description'];
-    const distance = await getDistance(destination);
-    distances.push({school: school['Official Name'], distance})
+    const {distance, duration} = await getDistance(destination);
+    // distances.push({school: school['Official Name'], distance, duration})
+    distances.push({...school, distance, duration})
   }
+
+  // distances = distances.sort((d0, d1) => d0.duration > d1.duration)
 
   // console.log(distances)
   // const worksheet = XLSX.utils.json_to_sheet(distances, {header: ['School', 'Distance']})
