@@ -7,7 +7,7 @@ The list of schools used can be found in https://www.education.ie/en/Publication
 ## Instructions for running
 
 1. Install npm and node if you don't have them already https://nodejs.org
-2. Clone or download this repo
+2. Clone or download this repo https://github.com/brleinad/eire-schools/archive/main.zip
 3. Install dependencies `npm install`
 4. Create your .env file with your google api key and your Eircode:
 ```
